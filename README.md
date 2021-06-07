@@ -23,7 +23,11 @@ npm run test
 
 # App runs on http://localhost:3000
 
-# Run build (It is included to the repo as it was mentioned in the requirements)
+
+
+
+# Run build
+#(It is included to the repo as it was mentioned in the requirements)
 serve -s build
 
 # App runs on http://localhost:5000
@@ -31,8 +35,8 @@ serve -s build
 
 ### Author
 
-MK
-[MK](https://github.com/kalapyha)
+NK
+[NK](https://github.com/kalapyha)
 
 ### Version
 
