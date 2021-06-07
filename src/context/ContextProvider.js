@@ -49,6 +49,7 @@ export const AppProvider = ({ children }) => {
 			type: 'SET_CURRENT_WEATHER',
 			payload: state.favoriteLocations[index],
 		});
+		dispatch({ type: 'SET_TEMPERATURE_TO_CELSIUS' });
 	};
 
 	const saveCoordinates = (location) => {

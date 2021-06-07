@@ -11,6 +11,8 @@
 Make sure you've installed node
 
 ```bash
+# Install .env and set the environment variable REACT_APP_WEATHER_API_KEY with your API KEY from OpenWeather
+[read more here ](https://openweathermap.org/api)
 # Install dependencies
 npm install
 

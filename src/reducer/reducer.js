@@ -2,7 +2,8 @@ const reducer = (state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_TEMPERATURE':
 			return { ...state, isCelsius: !state.isCelsius };
-
+		case 'SET_TEMPERATURE_TO_CELSIUS':
+			return { ...state, isCelsius: true };
 		case 'CONVERT_MAIN_TEMPERATURE':
 			return {
 				...state,
