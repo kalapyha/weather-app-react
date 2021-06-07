@@ -1,6 +1,7 @@
 import React, { useContext, useReducer, useEffect, useRef } from 'react';
 import reducer from '../reducer/reducer';
 import axios from 'axios';
+import { convertTemperature } from '../utils/helpers';
 
 const AppContext = React.createContext();
 
@@ -10,8 +11,9 @@ export const AppProvider = ({ children }) => {
 		isError: false,
 		activeLocationIndex: 0,
 		errorMessage: 'Ooops, something went wrong.',
-		isMetric: true,
-		list: [],
+		isCelsius: true,
+		favoriteLocations: [],
+		placesNear: [],
 		currentWeather: {},
 		latitude: '',
 		longitude: '',
@@ -22,19 +24,35 @@ export const AppProvider = ({ children }) => {
 
 	const toggleTemperature = () => {
 		dispatch({ type: 'TOGGLE_TEMPERATURE' });
+		dispatch({
+			type: 'CONVERT_TEMPERATURE',
+			payload: {
+				...state.currentWeather,
+				main: {
+					...state.currentWeather.main,
+					temp: convertTemperature(
+						state.currentWeather.main.temp,
+						state.isCelsius
+					),
+					feels_like: convertTemperature(
+						state.currentWeather.main.feels_like,
+						state.isCelsius
+					),
+				},
+			},
+		});
 	};
 
-	const showWeatherFromList = (index) => {
+	const showWeatherFromFavoritePlaces = (index) => {
 		dispatch({ type: 'UPDATE_ACTIVE_LOCATION', payload: index });
 		dispatch({
 			type: 'SET_CURRENT_WEATHER',
-			payload: state.list[state.activeLocationIndex],
+			payload: state.favoriteLocations[index],
 		});
 	};
 
 	const saveCoordinates = (location) => {
 		dispatch({ type: 'SET_LOCATION', payload: location });
-		console.log('HERE!!!', location);
 	};
 
 	useEffect(() => {
@@ -53,15 +71,41 @@ export const AppProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchWeather = async () => {
 			try {
-				const res = await axios.get(
-					`http://api.openweathermap.org/data/2.5/find?lat=${state.latitude}&lon=${state.longitude}&cnt=6&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+				// const placesNearUser = await axios.get(
+				// 	//Show 5 places near user location
+				// 	`http://api.openweathermap.org/data/2.5/find?lat=${state.latitude}&lon=${state.longitude}&cnt=5&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+				// );
+
+				// console.log('PLACES NEAR!!!!', placesNearUser);
+
+				const curLocationWeather = await axios.get(
+					//Current user location city weather
+					`http://api.openweathermap.org/data/2.5/weather?lat=${state.latitude}&lon=${state.longitude}&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
 				);
-				dispatch({ type: 'SET_WEATHER_DATA', payload: res.data.list });
-				//TODO !!!!
+
+				const bboxWeather = await axios.get(
+					//Cities within a geo bbox. See example on the map http://bboxfinder.com/#44,-76,46,-73
+					`http://api.openweathermap.org/data/2.5/box/city?bbox=-76,44,-73,46,9&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+				);
+
+				// dispatch({
+				// 	type: 'SET_PLACES_NEAR_TO_CURRENT_LOCATION',
+				// 	payload: placesNearUser.list,
+				// });
+
+				// console.log(bboxWeather.data.list);
+
 				dispatch({
 					type: 'SET_CURRENT_WEATHER',
-					payload: res.data.list[0],
+					payload: curLocationWeather.data,
 				});
+
+				dispatch({
+					type: 'SET_5_FAVORITE_PLACES',
+					payload: bboxWeather.data.list.slice(0, 5),
+				});
+
+				dispatch({ type: 'OFF_LOADING' });
 			} catch (err) {
 				console.error(err);
 				dispatch({ type: 'SHOW_ERROR', payload: err });
@@ -72,21 +116,12 @@ export const AppProvider = ({ children }) => {
 			initialRender.current = false;
 		} else {
 			fetchWeather();
-			dispatch({ type: 'OFF_LOADING' });
 		}
 	}, [state.latitude, state.longitude]);
 
-	useEffect(() => {
-		if (initialRender.current) {
-			console.log('List was updated!!!');
-		} else {
-			console.log('Second List was updated!!!');
-		}
-	}, [state.currentWeather]);
-
 	return (
 		<AppContext.Provider
-			value={{ ...state, toggleTemperature, showWeatherFromList }}
+			value={{ ...state, toggleTemperature, showWeatherFromFavoritePlaces }}
 		>
 			{children}
 		</AppContext.Provider>

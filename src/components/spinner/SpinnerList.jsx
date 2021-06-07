@@ -4,7 +4,9 @@ import Spinner from './Spinner';
 function SpinnerList() {
 	return (
 		<section className="card">
-			<div className="card-header bg-white">Favorite Locations</div>
+			<div className="card-header bg-white">
+				Searching Your Favorite Locations...
+			</div>
 			<ul className="list-group list-group-flush">
 				<li className="list-group-item">
 					<article className="d-flex align-items-center justify-content-between">

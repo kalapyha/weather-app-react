@@ -1,7 +1,10 @@
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_TEMPERATURE':
-			return { ...state, isMetric: !state.isMetric };
+			return { ...state, isCelsius: !state.isCelsius };
+
+		case 'CONVERT_TEMPERATURE':
+			return { ...state, currentWeather: action.payload };
 		case 'ON_LOADING':
 			return { ...state, isLoading: true };
 		case 'OFF_LOADING':
@@ -19,8 +22,10 @@ const reducer = (state, action) => {
 				...state,
 				currentWeather: action.payload,
 			};
-		case 'SET_WEATHER_DATA':
-			return { ...state, list: action.payload };
+		case 'SET_PLACES_NEAR_TO_CURRENT_LOCATION':
+			return { ...state, placesNear: action.payload };
+		case 'SET_5_FAVORITE_PLACES':
+			return { ...state, favoriteLocations: action.payload };
 		case 'SHOW_ERROR':
 			return {
 				...state,
@@ -34,4 +39,3 @@ const reducer = (state, action) => {
 };
 
 export default reducer;
-//AIzaSyAs83aBcujrQcZcHJyEPVwn4T-QKTzKGNw

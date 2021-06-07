@@ -1,27 +1,29 @@
 import React from 'react';
-import Rainy from '../../assets/Rainy.png';
 import { useGlobalContext } from '../../context/ContextProvider';
+import { getWeatherImage } from '../../utils/helpers';
+import './ListItem.css';
 
-function ListItem({ name, country, index }) {
-	const { activeLocationIndex, showWeatherFromList } = useGlobalContext();
+function ListItem({ name, image, index }) {
+	const imgURL = `/assets/${getWeatherImage(image)}`;
+
+	const { activeLocationIndex, showWeatherFromFavoritePlaces } =
+		useGlobalContext();
 
 	return (
 		<li
 			className={`list-group-item ${
 				activeLocationIndex === index && 'bg-light'
 			}`}
-			onClick={() => showWeatherFromList(index)}
+			onClick={() => showWeatherFromFavoritePlaces(index)}
 		>
-			<article className="d-flex align-items-center justify-content-between">
+			<article className="d-flex align-items-center justify-content-start justify-content-md-between">
 				<img
-					src={Rainy}
+					src={imgURL}
+					alt="Weather Logo"
 					className="rounded float-left"
-					alt="..."
 					style={{ height: '5vw', width: 'auto' }}
-				></img>
-				<h4 className="px-2 text-center">
-					{name}, {country}
-				</h4>
+				/>
+				<h4 className="pl-3 text-center">{name}</h4>
 			</article>
 		</li>
 	);
