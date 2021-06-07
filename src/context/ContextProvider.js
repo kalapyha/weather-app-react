@@ -10,7 +10,8 @@ export const AppProvider = ({ children }) => {
 		isLoading: true,
 		isError: false,
 		activeLocationIndex: 0,
-		errorMessage: 'Ooops, something went wrong.',
+		errorMessage:
+			'Ooops, something went wrong. Make sure you added the correct API and check your SSL if you trying a production build.',
 		isCelsius: true,
 		favoriteLocations: [],
 		placesNear: [],
@@ -59,7 +60,16 @@ export const AppProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchCoordinates = async () => {
 			try {
-				await window.navigator.geolocation.getCurrentPosition(saveCoordinates);
+				await window.navigator.geolocation.getCurrentPosition(
+					saveCoordinates,
+					(failure) => {
+						if (failure.message.startsWith('Only secure origins are allowed')) {
+							// Secure Origin issue.
+							//https://developers.google.com/web/updates/2016/04/geolocation-on-secure-contexts-only
+							dispatch({ type: 'SHOW_ERROR' });
+						}
+					}
+				);
 			} catch (err) {
 				console.error(err);
 				dispatch({ type: 'SHOW_ERROR', payload: err });

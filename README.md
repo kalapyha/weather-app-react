@@ -9,7 +9,7 @@
 Make sure you've installed node
 
 ```bash
-# Install .env and set the environment variable with your API KEY from OpenWeather
+# Add .env file and set the environment variable with your API KEY from OpenWeather
 find more info here https://openweathermap.org/api
 
 # Install dependencies
@@ -22,6 +22,11 @@ npm run start
 npm run test
 
 # App runs on http://localhost:3000
+
+# Run build (It is included to the repo as it was mentioned in the requirements)
+serve -s build
+
+# App runs on http://localhost:5000
 ```
 
 ### Author
