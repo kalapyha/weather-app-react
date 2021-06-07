@@ -1,12 +1,14 @@
 import React from 'react';
-import Switch from './Switch';
+import Switcher from './Switcher';
+import { useGlobalContext } from '../../context/ContextProvider';
 
 function Header() {
+	const { isLoading } = useGlobalContext();
 	return (
-		<nav className="navbar bg-white">
+		<nav className="navbar bg-white" data-testid="header">
 			<div className="container">
 				<p className="navbar-brand h1">Weather</p>
-				<Switch />
+				{!isLoading && <Switcher />}
 			</div>
 		</nav>
 	);

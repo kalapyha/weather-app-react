@@ -1,8 +1,8 @@
 import React from 'react';
-import './Switch.css';
+import './css/Switch.css';
 import { useGlobalContext } from '../../context/ContextProvider';
 
-function Switch() {
+function Switcher() {
 	const { isCelsius, toggleTemperature } = useGlobalContext();
 
 	return (
@@ -17,4 +17,4 @@ function Switch() {
 	);
 }
 
-export default Switch;
+export default Switcher;

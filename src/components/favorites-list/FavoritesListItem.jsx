@@ -1,9 +1,9 @@
 import React from 'react';
 import { useGlobalContext } from '../../context/ContextProvider';
 import { getWeatherImage } from '../../utils/helpers';
-import './ListItem.css';
+import './css/ListItem.css';
 
-function ListItem({ name, image, index }) {
+function FavoritesListItem({ name, image, index }) {
 	const imgURL = `/assets/${getWeatherImage(image)}`;
 
 	const { activeLocationIndex, showWeatherFromFavoritePlaces } =
@@ -23,10 +23,10 @@ function ListItem({ name, image, index }) {
 					className="rounded float-left"
 					style={{ height: '5vw', width: 'auto' }}
 				/>
-				<h4 className="pl-3 text-center">{name}</h4>
+				<p className="pl-3 h4 text-center ">{name}</p>
 			</article>
 		</li>
 	);
 }
 
-export default ListItem;
+export default FavoritesListItem;

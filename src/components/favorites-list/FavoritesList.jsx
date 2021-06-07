@@ -1,16 +1,16 @@
 import React from 'react';
-import ListItem from './ListItem';
+import FavoritesListItem from './FavoritesListItem';
 import { useGlobalContext } from '../../context/ContextProvider';
 
-function List() {
+function FavoritesList() {
 	const { favoriteLocations } = useGlobalContext();
 	return (
-		<section className="card">
+		<section className="card pb-3">
 			<div className="card-header bg-white">Favorite Locations</div>
 			<ul className="list-group list-group-flush">
 				{favoriteLocations.map((data, i) => {
 					return (
-						<ListItem
+						<FavoritesListItem
 							key={i}
 							image={data.weather[0].main}
 							name={data.name}
@@ -23,4 +23,4 @@ function List() {
 	);
 }
 
-export default List;
+export default FavoritesList;

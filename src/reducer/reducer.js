@@ -3,8 +3,11 @@ const reducer = (state, action) => {
 		case 'TOGGLE_TEMPERATURE':
 			return { ...state, isCelsius: !state.isCelsius };
 
-		case 'CONVERT_TEMPERATURE':
-			return { ...state, currentWeather: action.payload };
+		case 'CONVERT_MAIN_TEMPERATURE':
+			return {
+				...state,
+				currentWeather: action.payload,
+			};
 		case 'ON_LOADING':
 			return { ...state, isLoading: true };
 		case 'OFF_LOADING':
@@ -31,7 +34,6 @@ const reducer = (state, action) => {
 				...state,
 				isLoading: false,
 				isError: true,
-				errorMessage: action.payload.err,
 			};
 		default:
 			throw new Error('Incorrect action type!');

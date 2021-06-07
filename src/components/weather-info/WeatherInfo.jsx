@@ -20,12 +20,12 @@ function WeatherInfo() {
 			</div>
 			<div className="d-flex justify-content-center align-items-center flex-column flex-lg-row">
 				<div className="p-3">
-					<img src={imgURL} alt="Weather Logo" style={{ width: '15vw' }} />
+					<img src={imgURL} alt="Weather Logo" style={{ width: '14vw' }} />
 				</div>
 				<div className="card-body ">
 					<h5
 						className="card-title text-center"
-						style={{ fontSize: 'calc(4vw + 10px)' }}
+						style={{ fontSize: 'calc(3vw + 10px)' }}
 					>
 						{currentWeather.main.temp}
 						{isCelsius ? '°C' : '°F'}
